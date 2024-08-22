@@ -1,3 +1,4 @@
+/* Reset styles */
 h1,
 h2,
 h3,
@@ -20,7 +21,6 @@ ul {
 
 a {
   color: currentColor;
-  text-decoration: none;
 }
 
 button {
