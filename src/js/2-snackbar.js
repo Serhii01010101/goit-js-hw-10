@@ -30,14 +30,22 @@ form.addEventListener('submit', submitHandle);
 function submitHandle(event) {
   event.preventDefault();
   const { delay, state } = event.target.elements;
-  const delayTime = delay.value;
+  const delayTime = parseInt(delay.value, 10); // Преобразуем задержку в число
   const choice = state.value;
 
   createPromise(delayTime, choice)
     .then(value => {
+      iziToast.show({
+        ...iziSuccessOptions,
+        message: `Fulfilled promise in ${delayTime}ms`,
+      });
       console.log(value);
     })
     .catch(error => {
+      iziToast.show({
+        ...iziRejectOptions,
+        message: `Rejected promise in ${delayTime}ms`,
+      });
       console.log(error);
     });
   form.reset();
@@ -47,19 +55,9 @@ function createPromise(delayTime, choice) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (choice === 'fulfilled') {
-        resolve(
-          iziToast.show({
-            ...iziSuccessOptions,
-            message: `Fulfilled promise in ${delayTime}ms`,
-          })
-        );
+        resolve(`Promise fulfilled after ${delayTime}ms`);
       } else {
-        reject(
-          iziToast.show({
-            ...iziRejectOptions,
-            message: `Rejected promise in ${delayTime}ms`,
-          })
-        );
+        reject(`Promise rejected after ${delayTime}ms`);
       }
     }, delayTime);
   });
